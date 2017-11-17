@@ -3,10 +3,10 @@
 A small script that pulls a wallpaper from https://reddit.com/r/earthporn , sets it as the wallpaper, extracts the colors and sets them in the terminal and i3
 
 ## Dependencies
-[PRAW](https://github.com/praw-dev/praw) - Reddit api wrapper for python
-[PyWal](https://github.com/dylanaraps/pywal/) - Script that generates a color palette from an image
-[requests](https://github.com/requests/requests) - Python module for http requests, required for getting the images
-[feh](https://feh.finalrewind.org/) - For setting the wallpaper on i3 (available in most package managers)
+- [PRAW](https://github.com/praw-dev/praw) - Reddit api wrapper for python
+- [PyWal](https://github.com/dylanaraps/pywal/) - Script that generates a color palette from an image
+- [requests](https://github.com/requests/requests) - Python module for http requests, required for getting the images
+- [feh](https://feh.finalrewind.org/) - For setting the wallpaper on i3 (available in most package managers)
 
 ## Usage
 1. Go to https://www.reddit.com/prefs/apps/ and click the `create app` button at the bottom
