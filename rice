@@ -1,0 +1,19 @@
+#! /bin/sh
+#
+# rice.sh
+# Copyright (C) 2017 pavle <pavle.portic@tilda.center>
+#
+# Distributed under terms of the MIT license.
+#
+
+IMAGE_PATH="$1"
+[[ "$1" == "" ]] && IMAGE_PATH=$(python ./rewall)
+
+echo $IMAGE_PATH
+wal -n -t -e -i $IMAGE_PATH
+tail -n 19 ~/.cache/wal/colors-sway > ~/.i3/tmp_colors
+sed -r 's/"//g' ~/.i3/tmp_colors > ~/.i3/colors
+rm ~/.i3/tmp_colors
+
+./i3-reload
+feh --bg-fill $IMAGE_PATH

@@ -1,0 +1,71 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+# vim:fenc=utf-8
+#
+# Copyright © 2017 pavle <pavle.portic@tilda.center>
+#
+# Distributed under terms of the MIT license.
+
+"""
+Script that pulls images from hot posts from set subreddits, and sets them as a
+wallpaper.
+"""
+
+import json
+from os import getenv, makedirs, path
+import praw
+import re
+from requests import get as http_get
+import shutil
+
+# !!!!!!!!!!!!!!!!!!!!!!!
+# CHANGE THESE PARAMETERS
+# !!!!!!!!!!!!!!!!!!!!!!!
+client_id = 'insert your id'
+client_secret='insert your token'
+
+# Connect to Reddit API
+reddit = praw.Reddit(client_id=client_id,
+                     client_secret=client_secret,
+                     user_agent=f'nix:{client_id}:1.0.0')
+
+# Create Rewall dir if not found
+makedirs(getenv('HOME') + '/.cache/ReWall/', 0o755, True)
+
+# Load History
+history = []
+hist_file = getenv('HOME') + '/.cache/ReWall/history.json'
+if path.exists(hist_file):
+    with open(hist_file, 'r') as f:
+        history = json.load(f)
+
+
+img_ext_re = re.compile('\.(jpg|png|gif)$', re.IGNORECASE)
+img_name_re = re.compile('[^/]+\.(jpg|png|gif)$', re.IGNORECASE)
+
+for submission in reddit.subreddit('earthporn').hot(limit=20):
+    if not submission.stickied and submission.url not in history and img_ext_re.search(submission.url):
+        name_match = img_name_re.search(submission.url)
+        image_path = getenv('HOME') + '/.cache/ReWall/' + name_match.group()
+        r = http_get(submission.url, stream=True)
+
+        if not r.status_code == 200:
+            del r
+            continue
+
+        with open(image_path, 'wb') as f:
+            r.raw.decode_content = True
+            shutil.copyfileobj(r.raw, f)
+            f.close()
+
+        history.insert(0, submission.url)
+        history = history[:100]
+
+        with open(hist_file, 'w') as f:
+            f.write(json.dumps(history))
+            f.close()
+
+        print(image_path)
+        del r
+        break
+

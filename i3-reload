@@ -1,0 +1,10 @@
+#! /bin/sh
+#
+# i3-reload.sh
+# Copyright (C) 2017 pavle <pavle.portic@tilda.center>
+#
+# Distributed under terms of the MIT license.
+#
+
+cat ~/.i3/colors ~/.i3/base_config > ~/.i3/config
+i3-msg restart

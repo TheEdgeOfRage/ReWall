@@ -1,0 +1,19 @@
+# vim: set syntax=i3:
+#
+#class									background		border				text					split
+client.focused					$color8				$color8				$color7				$color7
+client.focused_inactive	$background		$background		$color8				$color0
+client.unfocused				$color0				$background		$color7				$color0
+client.urgent						$color1				$color1				$foreground		$color1
+client.background				$background
+
+bar {
+	status_command some_command
+	colors {
+		background					$color0
+		focused_workspace		$color8			$color8			$foreground
+		active_workspace		$color8			$color8			$color7
+		inactive_workspace	$color8			$color0			$color7
+		urgent_workspace		$color9			$color1			$foreground
+	}
+}
